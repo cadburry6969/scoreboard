@@ -30,7 +30,7 @@ end
 
 if Config.EnableIDAboveHead then
     function PlayAnimation(isPlay, animDict, animName, duration)
-        if Config.PlayerEmote then
+        if Config.PlayEmote then
             if isPlay then
                 RequestAnimDict(animDict)
                 while not HasAnimDictLoaded(animDict) do
@@ -142,6 +142,7 @@ function CloseScoreboard()
     is_controls_disabled = false
     SetNuiFocus(false, false)
     SetNuiFocusKeepInput(false)
+    PlayAnimation(false, Config.AnimDict, Config.AnimEmote, -1)
     SendNUIMessage({
         action = 'CLOSE_BOARD'
     })
@@ -152,6 +153,7 @@ RegisterNUICallback('CloseScoreboard', function(_, cb)
     is_scoreboard_open = false
     SetNuiFocus(false, false)
     SetNuiFocusKeepInput(false)
+    PlayAnimation(false, Config.AnimDict, Config.AnimEmote, -1)
     cb('ok')
 end)
 
