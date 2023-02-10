@@ -19,7 +19,7 @@ const RenderPlayerList = (source, identifier) => {
 
 const OpenScoreboard = (data, count) => {
     let html = "";
-    $("#scoretitle").html(`Online <br> Players `); // ${count} 
+    $("#scoretitle").html(`Online <br> Players [${count}]`);
     data.forEach((item, index) => {
         let identifier = item.identifier;
         let source = item.source;
