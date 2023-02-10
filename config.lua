@@ -1,7 +1,7 @@
 Config = {}
 
 Config.Key = 'U' -- Open playerlist key https://docs.fivem.net/docs/game-references/input-mapper-parameter-ids/keyboard/
-Config.CloseInstantly = true -- If this is false the scoreboard stays open only when you hold the OpenKey button, if this is true the scoreboard will be openned and closed with the OpenKey button
+Config.CloseInstantly = false -- If this is false the scoreboard stays open only when you hold the OpenKey button, if this is true the scoreboard will be openned and closed with the OpenKey button
 Config.UseIdentifier = "steam" -- Eg: steam, license (scoreboard will use the identifier mentioned here)
 Config.EnableIDAboveHead = true -- Display id above head
 Config.PlayEmote = true -- should play a emote when scoreboard is open (if Config.EnableIDAboveHead then emote will play contantly)

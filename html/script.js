@@ -1,6 +1,16 @@
-const RenderPlayerList = (source, identifier, id) => {
+const copyToClipboard = (str) => {
+    const el = document.createElement('textarea');
+    el.value = str;
+    document.body.appendChild(el);
+    el.select();
+    document.execCommand('copy');
+    document.body.removeChild(el);
+    console.log("^5copied "+str+" to clipboard");
+}
+
+const RenderPlayerList = (source, identifier) => {
     return `
-        <div class="listcard" id="${id}">
+        <div class="listcard" id="${identifier}">
             <div class="playerid-txt">${source}</div>
             <div class="identifier"> ${identifier}</div>
         </div>
@@ -13,9 +23,13 @@ const OpenScoreboard = (data, count) => {
     data.forEach((item, index) => {
         let identifier = item.identifier;
         let source = item.source;
-        html += RenderPlayerList(source, identifier, index);
+        html += RenderPlayerList(source, identifier);
     });
     $("#playerlist").html(html);
+    $('.listcard').click(function() {
+        const target = $(this)
+        copyToClipboard(target.attr('id'));
+    });
 };
 
 const CloseScoreboard = () => {

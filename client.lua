@@ -158,8 +158,12 @@ RegisterNUICallback('CloseScoreboard', function(_, cb)
 end)
 
 RegisterCommand('+scoreboard', function()
-	TriggerServerEvent('scoreboard:initiatedata')
-    OpenScoreboard(LocalPlayer.state.scoreplayers, LocalPlayer.state.scoretotalonline)
+    if is_scoreboard_open and not Config.CloseInstantly then
+        CloseScoreboard()
+    else
+        TriggerServerEvent('scoreboard:initiatedata')
+        OpenScoreboard(LocalPlayer.state.scoreplayers, LocalPlayer.state.scoretotalonline)
+    end
 end, false)
 
 if Config.CloseInstantly then
