@@ -140,6 +140,8 @@ end
 function CloseScoreboard()
     is_scoreboard_open = false
     is_controls_disabled = false
+    SetNuiFocus(false, false)
+    SetNuiFocusKeepInput(false)
     SendNUIMessage({
         action = 'CLOSE_BOARD'
     })

@@ -20,3 +20,7 @@ files {
 dependencies {
     '/onesync',
 }
+
+escrow_ignore {
+    'config.lua'
+}
