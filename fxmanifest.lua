@@ -4,6 +4,7 @@ lua54 'yes'
 
 author 'Cadburry#7547'
 description 'Standalone Scoreboard'
+version '1.0'
 
 shared_script 'config.lua'
 client_script 'client.lua'
@@ -22,5 +23,8 @@ dependencies {
 }
 
 escrow_ignore {
-    'config.lua'
+    'html/*',
+    'config.lua',
+    'server.lua',
+    'client.lua',
 }
