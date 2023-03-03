@@ -103,11 +103,11 @@ if Config.EnableIDAboveHead then
                         sleep = 0
                         local playerId = GetPlayerServerId(player)
                         local playerPed = GetPlayerPed(player)
-                        local playerCoords = GetEntityCoords(playerPed)
-                        if NetworkIsPlayerTalking(PlayerId()) then
-                            TextDraw({coords = vector3(playerCoords.x, playerCoords.y, playerCoords.z+1.2), fontsize = 0.5, fontstyle = 2, r = 255, g = 0, b = 57, text = playerId})
+                        local playerCoords = GetPedBoneCoords(playerPed, 0x796e, 0, 0, 0)
+                        if NetworkIsPlayerTalking(playerId) then
+                            TextDraw({coords = vector3(playerCoords.x, playerCoords.y, playerCoords.z+0.5), fontsize = 0.5, fontstyle = 2, r = 255, g = 0, b = 57, text = playerId})
                         else
-                            TextDraw({coords = vector3(playerCoords.x, playerCoords.y, playerCoords.z+1.2), fontsize = 0.5, fontstyle = 2, r = 255, g = 255, b = 255, text = playerId})
+                            TextDraw({coords = vector3(playerCoords.x, playerCoords.y, playerCoords.z+0.5), fontsize = 0.5, fontstyle = 2, r = 255, g = 255, b = 255, text = playerId})
                         end
                     end
                     if Config.PlayEmote then
