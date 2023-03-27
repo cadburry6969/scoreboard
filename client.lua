@@ -58,7 +58,7 @@ if Config.EnableIDAboveHead then
             SetTextOutline()
             SetTextEntry("STRING")
             SetTextCentre(true)
-            AddTextComponentString(data.text)
+            AddTextComponentSubstringPlayerName(data.text)
             DrawText(_x, _y)
         end
     end
@@ -104,7 +104,7 @@ if Config.EnableIDAboveHead then
                         local playerId = GetPlayerServerId(player)
                         local playerPed = GetPlayerPed(player)
                         local playerCoords = GetPedBoneCoords(playerPed, 0x796e, 0, 0, 0)
-                        if NetworkIsPlayerTalking(playerId) then
+                        if NetworkIsPlayerTalking(player) then
                             TextDraw({coords = vector3(playerCoords.x, playerCoords.y, playerCoords.z+0.5), fontsize = 0.5, fontstyle = 2, r = 255, g = 0, b = 57, text = playerId})
                         else
                             TextDraw({coords = vector3(playerCoords.x, playerCoords.y, playerCoords.z+0.5), fontsize = 0.5, fontstyle = 2, r = 255, g = 255, b = 255, text = playerId})
@@ -132,7 +132,7 @@ function OpenScoreboard(data, count)
     ShowID()
     SendNUIMessage({
         action = 'OPEN_BOARD',
-        data = table.clone(data),
+        data = data,
         count = count
     })
 end
@@ -157,12 +157,15 @@ RegisterNUICallback('CloseScoreboard', function(_, cb)
     cb('ok')
 end)
 
+AddEventHandler('playerSpawned', function()
+    TriggerServerEvent('scoreboard:initiatedata')
+end)
+
 RegisterCommand('+scoreboard', function()
     if is_scoreboard_open and not Config.CloseInstantly then
         CloseScoreboard()
     else
-        TriggerServerEvent('scoreboard:initiatedata')
-        OpenScoreboard(LocalPlayer.state.scoreplayers, LocalPlayer.state.scoretotalonline)
+        OpenScoreboard(GlobalState.scoreplayers, GlobalState.onlineplayers)
     end
 end, false)
 

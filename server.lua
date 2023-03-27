@@ -1,11 +1,11 @@
 local string_find = string.find
-local string_lower = string.lower
-local identifer = Config.UseIdentifier
+GlobalState.scoreplayers = {}
+GlobalState.onlineplayers = 0
 
-function GetIdentifier(source, idtype)
+function GetIdentifier(source)
     local identifiers = GetPlayerIdentifiers(source)
     for _, identifier in pairs(identifiers) do
-        if string_find(identifier, idtype) then
+        if string_find(identifier, Config.UseIdentifier) then
             return identifier
         end
     end
@@ -14,14 +14,26 @@ end
 
 RegisterNetEvent("scoreboard:initiatedata", function()
     local players = {}
-    local source = source
     local totalonline = GetNumPlayerIndices()
-    for _, v in pairs(GetPlayers()) do
-        players[#players+1] = {
-            source = v,
-            identifier = string_lower(GetIdentifier(v, identifer))
-        }
+    for _, playerId in pairs(GetPlayers()) do
+        if playerId then
+            players[tonumber(playerId)] = {
+                source = playerId,
+                identifier = GetIdentifier(playerId)
+            }
+        end
     end
-    Player(source).state.scoreplayers = players
-    Player(source).state.scoretotalonline = totalonline
+    Wait(100)
+    GlobalState.scoreplayers = players
+    GlobalState.onlineplayers = totalonline
+end)
+
+
+AddEventHandler("onResourceStart", function(resourceName)
+    if resourceName ~= GetCurrentResourceName() then return end
+	TriggerEvent("scoreboard:initiatedata")
+end)
+
+AddEventHandler("playerDropped", function()
+	TriggerEvent("scoreboard:initiatedata")
 end)
