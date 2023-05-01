@@ -9,7 +9,7 @@ function GetIdentifier(source)
             return identifier
         end
     end
-    return nil
+    return 'Could not load'
 end
 
 RegisterNetEvent("scoreboard:initiatedata", function()

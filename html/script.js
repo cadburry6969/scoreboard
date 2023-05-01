@@ -21,9 +21,11 @@ const OpenScoreboard = (data, count) => {
     let html = "";
     $("#scoretitle").html(`Online <br> Players [${count}]`);
     data.forEach((item, index) => {
-        let identifier = item.identifier;
-        let source = item.source;
-        html += RenderPlayerList(source, identifier);
+        if (item) {
+            let identifier = item.identifier;
+            let source = item.source;
+            html += RenderPlayerList(source, identifier);
+        }
     });
     $("#playerlist").html(html);
     $('.listcard').click(function() {
