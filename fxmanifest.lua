@@ -4,7 +4,7 @@ lua54 'yes'
 
 author 'Cadburry#7547'
 description 'Standalone Scoreboard'
-version '1.0'
+version '1.1'
 
 shared_script 'config.lua'
 client_script 'client.lua'

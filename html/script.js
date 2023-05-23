@@ -17,12 +17,12 @@ const RenderPlayerList = (source, identifier) => {
     `;
 };
 
-const OpenScoreboard = (data, count) => {
+const OpenScoreboard = (data, count, isadmin) => {
     let html = "";
     $("#scoretitle").html(`Online <br> Players [${count}]`);
     data.forEach((item, index) => {
         if (item) {
-            let identifier = item.identifier;
+            let identifier = isadmin === true ? item.name : item.identifier;
             let source = item.source;
             html += RenderPlayerList(source, identifier);
         }
@@ -50,7 +50,7 @@ window.addEventListener("message", (event) => {
     const action = data.action;
     switch (action) {
         case "OPEN_BOARD":
-            return OpenScoreboard(playerlist, data.count);
+            return OpenScoreboard(playerlist, data.count, data.isadmin);
         case "CLOSE_BOARD":
             return CloseScoreboard();
         default:

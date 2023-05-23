@@ -16,10 +16,11 @@ RegisterNetEvent("scoreboard:initiatedata", function()
     local players = {}
     local totalonline = GetNumPlayerIndices()
     for _, playerId in pairs(GetPlayers()) do
-        if playerId then
+        if GetPlayerPed(playerId) ~= 0 then
             players[tonumber(playerId)] = {
                 source = playerId,
-                identifier = GetIdentifier(playerId)
+                identifier = GetIdentifier(playerId),
+                name = GetPlayerName(playerId)
             }
         end
     end
@@ -28,6 +29,11 @@ RegisterNetEvent("scoreboard:initiatedata", function()
     GlobalState.onlineplayers = totalonline
 end)
 
+RegisterNetEvent("scoreboard:getPermission", function()
+    local source = source
+    local isAdmin = IsPlayerAceAllowed(source, 'command')
+    TriggerClientEvent("scoreboard:hasPermission", source, isAdmin)
+end)
 
 AddEventHandler("onResourceStart", function(resourceName)
     if resourceName ~= GetCurrentResourceName() then return end

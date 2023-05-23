@@ -1,3 +1,4 @@
+local hasPermission = false
 local is_scoreboard_open = false
 local is_controls_disabled = false
 function DisableControls()
@@ -104,10 +105,12 @@ if Config.EnableIDAboveHead then
                         local playerId = GetPlayerServerId(player)
                         local playerPed = GetPlayerPed(player)
                         local playerCoords = GetPedBoneCoords(playerPed, 0x796e, 0, 0, 0)
-                        if NetworkIsPlayerTalking(player) then
-                            TextDraw({coords = vector3(playerCoords.x, playerCoords.y, playerCoords.z+0.5), fontsize = 0.5, fontstyle = 2, r = 255, g = 0, b = 57, text = playerId})
-                        else
-                            TextDraw({coords = vector3(playerCoords.x, playerCoords.y, playerCoords.z+0.5), fontsize = 0.5, fontstyle = 2, r = 255, g = 255, b = 255, text = playerId})
+                        if IsEntityVisible(playerPed) then
+                            if NetworkIsPlayerTalking(player) then
+                                TextDraw({coords = vector3(playerCoords.x, playerCoords.y, playerCoords.z+0.5), fontsize = 0.5, fontstyle = 2, r = 255, g = 0, b = 57, text = playerId})
+                            else
+                                TextDraw({coords = vector3(playerCoords.x, playerCoords.y, playerCoords.z+0.5), fontsize = 0.5, fontstyle = 2, r = 255, g = 255, b = 255, text = playerId})
+                            end
                         end
                     end
                     if Config.PlayEmote then
@@ -133,7 +136,8 @@ function OpenScoreboard(data, count)
     SendNUIMessage({
         action = 'OPEN_BOARD',
         data = data,
-        count = count
+        count = count,
+        isadmin = hasPermission,
     })
 end
 
@@ -157,8 +161,19 @@ RegisterNUICallback('CloseScoreboard', function(_, cb)
     cb('ok')
 end)
 
+RegisterNetEvent("scoreboard:hasPermission", function(hasPerm)
+    hasPermission = hasPerm
+end)
+
 AddEventHandler('playerSpawned', function()
     TriggerServerEvent('scoreboard:initiatedata')
+    TriggerServerEvent('scoreboard:getPermission')
+end)
+
+AddEventHandler('onClientResourceStart', function(resourceName)
+    if GetCurrentResourceName() == resourceName then
+        TriggerServerEvent('scoreboard:getPermission')
+    end
 end)
 
 RegisterCommand('+scoreboard', function()
