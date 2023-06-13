@@ -20,8 +20,8 @@ const RenderPlayerList = (source, identifier) => {
 const OpenScoreboard = (data, count, isadmin) => {
     let html = "";
     $("#scoretitle").html(`Online <br> Players [${count}]`);
-    data.forEach((item, index) => {
-        if (item) {
+    Object.entries(data).forEach(([_, item]) => {
+        if (item !== null) {
             let identifier = isadmin === true ? item.name : item.identifier;
             let source = item.source;
             html += RenderPlayerList(source, identifier);
